@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>i3T3: A Visual Reasoning Pipeline for NIH 3T3 Fibroblast Cell Identification and Quantification</title>
+  <meta name="description" content="A Python-based image analysis pipeline for automated counting and morphological feature extraction of NIH-3T3 fibroblast cells. R² = 0.832 vs manual counts." />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav>
+    <span class="nav-brand"><span>i</span>3T3</span>
+    <ul class="nav-links">
+      <li><a href="#pipeline">Pipeline</a></li>
+      <li><a href="#results">Results</a></li>
+      <li><a href="#usage">Usage</a></li>
+      <li><a href="#future">Future Direction</a></li>
+      <li><a href="#citation">Citation</a></li>
+      <li><a href="https://github.com/BrennaThomas-Portfolio/i3T3" target="_blank" rel="noopener">GitHub ↗</a></li>
+    </ul>
+  </nav>
+
+  <!-- HERO -->
+  <div class="hero">
+    <div class="hero-badge">SMC Biotechnology Program &mdash; Spring 2026</div>
+    <h1>
+      <span class="accent">i3T3</span><br />
+      A Visual Reasoning Pipeline for<br />NIH 3T3 Fibroblast Cell Identification and Quantification
+    </h1>
+    <p class="subtitle">
+      Automated NIH-3T3 Swiss Mouse Fibroblast cell counting from Crystal Violet
+      stained microscopy images using segmentation, watershed separation,
+      and morphological feature extraction.
+    </p>
+    <div class="hero-actions">
+      <a class="btn btn-primary" href="https://github.com/BrennaThomas-Portfolio/i3T3" target="_blank" rel="noopener">
+        View on GitHub
+      </a>
+      <a class="btn btn-secondary" href="https://github.com/BrennaThomas-Portfolio/i3T3/blob/main/i3T3.py" target="_blank" rel="noopener">
+        View Source
+      </a>
+    </div>
+  </div>
+
+  <!-- DEDICATION -->
+  <div style="text-align:center; padding: 1rem 2rem; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); background: var(--surface);">
+    <p style="color: var(--text-muted); font-style: italic; margin: 0; font-size: 0.9rem;">
+      In loving memory of my mother Rochelle Isom, January 18, 1966 &ndash; February 21, 2026.
+    </p>
+  </div>
+
+  <!-- STATS BAR -->
+  <div class="stats-bar">
+    <div class="stat-item">
+      <span class="stat-value">0.832</span>
+      <span class="stat-label">R² vs. Manual Count</span>
+    </div>
+    <div class="stat-item">
+      <span class="stat-value">0.01</span>
+      <span class="stat-label">ImageJ R² vs. Manual</span>
+    </div>
+    <div class="stat-item">
+      <span class="stat-value">36</span>
+      <span class="stat-label">Images validated</span>
+    </div>
+    <div class="stat-item">
+      <span class="stat-value">40+</span>
+      <span class="stat-label">Features per object</span>
+    </div>
+  </div>
+
+  <!-- OVERVIEW -->
+  <section id="overview">
+    <p class="section-label">About</p>
+    <h2>What is i3T3?</h2>
+    <p>
+      Manual cell counting is labor-intensive and subject to observer variability.
+      Automated tools like ImageJ require significant manual calibration and often struggle
+      with touching or overlapping cells of irregular form. <strong>i3T3</strong> was built to address this
+      using a multi-stage visual reasoning approach.
+    </p>
+    <p>
+      i3T3 was initially developed and tuned during the Santa Monica College Biotechnology Program's Bio 32 Cell Culture Methods & Techniques course. Crystal Violet stained NIH-3T3 fibroblast culture images from other experiments in the course were used. Once validated, i3T3 was applied as the <strong>dry lab / computational component</strong> of of the Cell Culture Methods & Techniques final project, which investigated the effects of Indole-3-Acetic Acid (IAA) on NIH-3T3 cell growth in vitro.
+    </p>
+    <p>
+      The broader goal of i3T3 is to serve as a foundation for a biomedical visual-reasoning
+      model evaluation tool, filling gaps in AI evaluation and model failure analysis
+      for image visual reasoning tasks.
+    </p>
+  </section>
+
+  <!-- PIPELINE -->
+  <section id="pipeline">
+    <p class="section-label">How It Works</p>
+    <h2>Pipeline</h2>
+    <p>
+      i3T3 processes each image through stages, from raw pixel data to a
+      labeled count and a per-object feature export.
+    </p>
+
+    <div class="pipeline-steps">
+      <div class="pipeline-step">
+        <div class="step-number">Step 01</div>
+        <div class="step-title">Image to Matrix</div>
+        <p class="step-desc">Convert RGB image to 8-bit grayscale matrix via scikit-image.</p>
+      </div>
+      <div class="pipeline-step">
+        <div class="step-number">Step 02</div>
+        <div class="step-title">Cell Body Mask</div>
+        <p class="step-desc">Gaussian blur + Otsu threshold isolates cell bodies from background.</p>
+      </div>
+      <div class="pipeline-step">
+        <div class="step-number">Step 03</div>
+        <div class="step-title">Nucleus Mask</div>
+        <p class="step-desc">Percentile threshold on raw matrix captures the darkest nuclear regions independently.</p>
+      </div>
+      <div class="pipeline-step">
+        <div class="step-number">Step 04</div>
+        <div class="step-title">Watershed Separation</div>
+        <p class="step-desc">Peak local max markers seed watershed, splitting touching and overlapping cells.</p>
+      </div>
+      <div class="pipeline-step">
+        <div class="step-number">Step 05</div>
+        <div class="step-title">Fibroblast Filter</div>
+        <p class="step-desc">Morphological rules (area, eccentricity, solidity, nucleus count) classify true cells.</p>
+      </div>
+      <div class="pipeline-step">
+        <div class="step-number">Step 06</div>
+        <div class="step-title">Feature Export</div>
+        <p class="step-desc">40+ shape, intensity, skeleton, and LBP texture features exported per object to CSV.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- GALLERY -->
+  <section id="gallery">
+    <p class="section-label">Sample Output</p>
+    <h2>Pipeline Visualizations</h2>
+    <p>
+      Generated from a Crystal Violet stained NIH-3T3 culture image during the
+      development and tuning phase of i3T3.
+    </p>
+
+    <div class="gallery" style="grid-template-columns: 1fr; margin-bottom: 1rem;">
+      <div class="gallery-item">
+        <img src="https://raw.githubusercontent.com/BrennaThomas-Portfolio/i3T3/main/outputs/tri_plot.png"
+             alt="Three-panel pipeline output: original image, nucleus binary mask, and colored label segmentation showing 414 fibroblast-like objects" />
+        <div class="gallery-caption">
+          <strong>Pipeline visualization</strong>
+          Original image (left), nucleus binary mask (center),
+          and final colored segmentation output (right) &mdash; 414 objects segmented.
+        </div>
+      </div>
+    </div>
+
+    <div class="gallery">
+      <div class="gallery-item">
+        <img src="https://raw.githubusercontent.com/BrennaThomas-Portfolio/i3T3/main/outputs/peaks.png"
+             alt="Peak local max markers overlaid on body mask, showing one red seed point per detected cell body" />
+        <div class="gallery-caption">
+          <strong>Peak local max markers</strong>
+          One seed point placed inside each detected cell body prior to watershed segmentation.
+        </div>
+      </div>
+      <div class="gallery-item">
+        <img src="https://raw.githubusercontent.com/BrennaThomas-Portfolio/i3T3/main/outputs/labeled.png"
+             alt="Colored label overlay on original image showing 414 segmented objects each assigned a unique color" />
+        <div class="gallery-caption">
+          <strong>Labeled segmentation overlay</strong>
+          Each segmented object assigned a unique color and tracked as an independent region.
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- RESULTS -->
+  <section id="results">
+    <p class="section-label">Validation</p>
+    <h2>Results</h2>
+    <p>
+      i3T3 was validated against manual hand counts and ImageJ automated counts across 36
+      Crystal Violet stained images from the IAA final project experiment &mdash;
+      4 conditions &times; 3 time points (24 hr, 48 hr, 72 hr) &times; 3 replicates.
+      Correlation analysis was performed in R using linear regression.
+    </p>
+
+    <table class="results-table">
+      <thead>
+        <tr>
+          <th>Method</th>
+          <th>R² vs. Manual Count</th>
+          <th>Notes</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr class="winner">
+          <td>i3T3</td>
+          <td><span class="r2-value">0.832</span></td>
+          <td>Watershed + nucleus-aware filtering</td>
+        </tr>
+        <tr class="loser">
+          <td>ImageJ</td>
+          <td><span class="r2-value">0.01</span></td>
+          <td>Automated particle analysis</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <p style="margin-top:1.25rem;">
+      The difference in correlation suggests that i3T3&rsquo;s visual reasoning approach has the potential to be developed into a biomedical visual-reasoning model evaluation tool, filling gaps in AI evaluation and model failure analysis for image visual reasoning tasks.
+    </p>
+  </section>
+
+  <!-- FEATURES -->
+  <section id="features">
+    <p class="section-label">Feature Extraction</p>
+    <h2>40+ Features Per Object</h2>
+    <p>Each segmented cell is exported with a full morphological profile for downstream ML use.</p>
+
+    <div class="features-grid">
+      <div class="feature-card">
+        <div class="feature-icon">⬡</div>
+        <h3>Shape</h3>
+        <p class="step-desc">Area, perimeter, eccentricity, major/minor axis, aspect ratio, solidity, extent, circularity, compactness, roundness, convexity, elongation index</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">◑</div>
+        <h3>Intensity</h3>
+        <p class="step-desc">Mean, min, max, and standard deviation from the grayscale pixel matrix</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">◎</div>
+        <h3>Nucleus</h3>
+        <p class="step-desc">Nucleus count, nucleus area total, nucleus area ratio, body-to-nucleus ratio</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">∿</div>
+        <h3>Skeleton</h3>
+        <p class="step-desc">Skeleton length and endpoint count via morphological skeletonization</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">▦</div>
+        <h3>Texture</h3>
+        <p class="step-desc">Normalized Local Binary Pattern (LBP) histogram &mdash; 10 bins, uniform, P=8, R=1</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">⊹</div>
+        <h3>Geometry</h3>
+        <p class="step-desc">Centroid, orientation, convex area, equivalent diameter, Feret diameter, bounding box, perimeter extreme points</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- USAGE -->
+  <section id="usage">
+    <p class="section-label">Getting Started</p>
+    <h2>Usage</h2>
+
+    <h3 style="margin-top:1.5rem; margin-bottom:0.5rem;">1. Install dependencies</h3>
+    <pre><code>pip install -r requirements.txt</code></pre>
+
+    <h3 style="margin-bottom:0.5rem;">2. Point the script at your image</h3>
+    <p>Update the three filename references in <code>i3T3.py</code> (each marked <code># CHANGE THIS for each image</code>):</p>
+    <pre><code>image_matrx = iio.imread("YOUR_IMAGE.jpg")
+np.savetxt("YOUR_IMAGE_matrix_uint8.csv", ...)
+...
+image = iio.imread("YOUR_IMAGE.jpg")
+matrix = np.loadtxt("YOUR_IMAGE_matrix_uint8.csv", ...)
+...
+image_filename = "YOUR_IMAGE.jpg"</code></pre>
+
+    <h3 style="margin-bottom:0.5rem;">3. Run</h3>
+    <pre><code>python i3T3.py</code></pre>
+
+    <h3 style="margin-bottom:0.5rem;">4. Tune key parameters</h3>
+    <pre><code># Smoothing — increase sigma for noisier images
+blurred = gaussian(matrix, sigma=4.0)
+
+# Nucleus sensitivity — lower percentile = stricter
+nucleus_threshold = np.percentile(matrix, 41)
+
+# Watershed — increase min_distance to merge nearby peaks
+peak_coords = peak_local_max(distance, min_distance=10, threshold_abs=2)
+
+# Fibroblast rule — adjust bounds for your cell line
+fibroblast_rule = (
+    area >= 1000 and area <= 800000 and
+    aspect_ratio >= 0.10 and aspect_ratio <= 8.0 and
+    solidity >= 0.20 and
+    n_nuclei >= 1 and n_nuclei <= 2
+)</code></pre>
+  </section>
+
+  <!-- FUTURE DIRECTION -->
+  <section id="future">
+    <p class="section-label">Vision</p>
+    <h2>Future Direction</h2>
+    <p>
+      i3T3 is the foundation of a larger research vision: building evaluation tools for AI models
+      operating in the biomedical and clinical domains. My goal is to contribute to the growing
+      field of AI model failure analysis, ensuring that the models used in research and in patient
+      care are as accurate, precise, reliable, fair and unbiased, trustworthy, and as consistent as possible.
+    </p>
+  </section>
+
+  <!-- CITATION -->
+  <section id="citation">
+    <p class="section-label">Cite This Work</p>
+    <h2>Citation</h2>
+    <p>
+      i3T3 was validated in the context of the following poster presentation. If you
+      reference this tool in your work, please cite:
+    </p>
+    <div class="citation-block">
+      Cruz, J., Hernandez, A. M., Millage, P., Rahman, J., &amp; Thomas, B. (2026).
+      <em>Investigating the Effects of Indole-3-Acetic Acid on Mammalian Cells with
+      Application to the Development of i3T3: A Visual Reasoning Pipeline for Cell
+      Identification and Quantification</em> [Poster presentation].
+      Santa Monica College Biotechnology Program, Spring 2026.
+    </div>
+
+  </section>
+
+  <!-- ACKNOWLEDGEMENTS -->
+  <section id="acknowledgements">
+    <p class="section-label">Acknowledgements</p>
+    <h2>Acknowledgements</h2>
+    <p>
+      I would like to thank Dr. Karen Cavassani, Dr. Thomas Chen, John Dannan,
+      Jinan Darwiche, Dr. Andria Denmon, <span style="white-space:nowrap">Dr. Karol Lu</span>, Krystal Mendez, Journey Rahman,
+      and Howard Stahl for their contributions and support.
+    </p>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <p>
+      i3T3 &mdash; Santa Monica College Biotechnology Program, Spring 2026
+      &nbsp;&middot;&nbsp;
+      Developed by <a href="https://github.com/BrennaThomas-Portfolio" target="_blank" rel="noopener">Brenna Thomas</a>
+      &nbsp;&middot;&nbsp;
+      <a href="https://github.com/BrennaThomas-Portfolio/i3T3" target="_blank" rel="noopener">GitHub</a>
+    </p>
+  </footer>
+
+</body>
+</html>

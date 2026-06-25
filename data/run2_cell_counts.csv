@@ -1,0 +1,25 @@
+﻿IMAGE NAME,condition,time_period,i3t3,manual,imagej
+run02_24hr_plate1_b_0001,"Control 2: 2% FBS	",24 hr,39,18,358
+run02_24hr_plate1_b_0002,"Control 2: 2% FBS	",24 hr,66,48,218
+run02_24hr_plate1_b_0003,"Control 2: 2% FBS	",24 hr,47,28,69
+run02_24hr_plate1_c_0001,Experimental 1: 2% FBS + Low IAA,24 hr,279,159,133
+run02_24hr_plate1_c_0002,Experimental 1: 2% FBS + Low IAA,24 hr,362,242,326
+run02_24hr_plate1_c_0003,Experimental 1: 2% FBS + Low IAA,24 hr,235,211,485
+run02_24hr_plate1_d_0001,Experimental 2: 2% FBS + High IAA,24 hr,187,131,294
+run02_24hr_plate1_d_0002,Experimental 2: 2% FBS + High IAA,24 hr,232,149,223
+run02_24hr_plate1_d_0003,Experimental 2: 2% FBS + High IAA,24 hr,258,183,140
+run02_48hr_plate2_b_0001,"Control 2: 2% FBS	",48 hr,2394,1190,512
+run02_48hr_plate2_b_0002,"Control 2: 2% FBS	",48 hr,1165,860,604
+run02_48hr_plate2_b_0003,"Control 2: 2% FBS	",48 hr,1174,1177,269
+run02_48hr_plate2_c_0001,Experimental 1: 2% FBS + Low IAA,48 hr,166,179,1054
+run02_48hr_plate2_c_0002,Experimental 1: 2% FBS + Low IAA,48 hr,828,749,963
+run02_48hr_plate2_c_0003,Experimental 1: 2% FBS + Low IAA,48 hr,493,456,1561
+run02_48hr_plate2_d_0001,Experimental 2: 2% FBS + High IAA,48 hr,97,65,432
+run02_48hr_plate2_d_0002,Experimental 2: 2% FBS + High IAA,48 hr,187,146,266
+run02_48hr_plate2_d_0003,Experimental 2: 2% FBS + High IAA,48 hr,205,197,315
+run02_72hr_plate3_b_0002,"Control 2: 2% FBS	",72 hr,1339,590,883
+run02_72hr_plate3_c_0001,Experimental 1: 2% FBS + Low IAA,72 hr,359,181,1768
+run02_72hr_plate3_c_0002,Experimental 1: 2% FBS + Low IAA,72 hr,495,219,2433
+run02_72hr_plate3_c_0003,Experimental 1: 2% FBS + Low IAA,72 hr,681,345,1767
+run02_72hr_plate3_d_0001,Experimental 2: 2% FBS + High IAA,72 hr,372,200,277
+run02_72hr_plate3_d_0003,Experimental 2: 2% FBS + High IAA,72 hr,189,115,258
